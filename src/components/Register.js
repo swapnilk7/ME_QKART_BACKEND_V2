@@ -7,8 +7,10 @@ import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
+import { useHistory, Link } from "react-router-dom";
 
 const Register = () => {
+  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,11 +21,11 @@ const Register = () => {
     const element = e.target.parentElement.textContent;
 
     if (element.startsWith("Username")) {
-      setUsername(e.target.value);
+      setUsername(e.target.value.trim());
     } else if (element.startsWith("Password")) {
-      setPassword(e.target.value);
+      setPassword(e.target.value.trim());
     } else {
-      setConfirmPassword(e.target.value);
+      setConfirmPassword(e.target.value.trim());
     }
   };
 
@@ -67,6 +69,7 @@ const Register = () => {
         .then((res) => {
           cleanUp();
           enqueueSnackbar("Registered Successfully", { variant: "success" });
+          history.push("/login");
         })
         .catch((error) => {
           if (error.response.status === 400) {
@@ -125,7 +128,7 @@ const Register = () => {
 
   return (
     <Box display="flex" flexDirection="column" justifyContent="space-between" minHeight="100vh">
-      <Header hasHiddenAuthButtons />
+      <Header hasHiddenAuthButtons={"register/login"} />
       <Box className="content">
         <Stack spacing={2} className="form">
           <h2 className="title">Register</h2>
@@ -173,9 +176,9 @@ const Register = () => {
           )}
           <p className="secondary-action">
             Already have an account?{" "}
-            <a className="link" href="#">
+            <Link className="link" to="/login">
               Login here
-            </a>
+            </Link>
           </p>
         </Stack>
       </Box>

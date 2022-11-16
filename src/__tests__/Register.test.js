@@ -55,9 +55,7 @@ describe("Register Page", () => {
 
   it("should have header with logo", () => {
     const images = screen.getAllByRole("img");
-    const logo = images.find(
-      (img) => img.getAttribute("src") === "logo_dark.svg"
-    );
+    const logo = images.find((img) => img.getAttribute("src") === "logo_dark.svg");
     expect(logo).toBeInTheDocument();
   });
 
@@ -90,8 +88,7 @@ describe("Register Page", () => {
 
   it("should show error message if username < 6 characters", async () => {
     const usernameInput = screen.getByLabelText(/username/i);
-    const [passwordInput, confirmPasswordInput] =
-      screen.getAllByLabelText(/password/i);
+    const [passwordInput, confirmPasswordInput] = screen.getAllByLabelText(/password/i);
 
     userEvent.type(usernameInput, "abcde");
     userEvent.type(passwordInput, "learnbydoing");
@@ -122,8 +119,7 @@ describe("Register Page", () => {
 
   it("should show error message if password < 6 chars long", async () => {
     const usernameInput = screen.getByLabelText(/username/i);
-    const [passwordInput, confirmPasswordInput] =
-      screen.getAllByLabelText(/password/i);
+    const [passwordInput, confirmPasswordInput] = screen.getAllByLabelText(/password/i);
 
     userEvent.type(usernameInput, "crio.do");
     userEvent.type(passwordInput, "lea");
@@ -138,8 +134,7 @@ describe("Register Page", () => {
 
   it("should show error message if password and confirm password are not same", async () => {
     const usernameInput = screen.getByLabelText(/username/i);
-    const [passwordInput, confirmPassword] =
-      screen.getAllByLabelText(/password/i);
+    const [passwordInput, confirmPassword] = screen.getAllByLabelText(/password/i);
 
     userEvent.type(usernameInput, "crio.do");
     userEvent.type(passwordInput, "Hello!Password");
@@ -154,8 +149,7 @@ describe("Register Page", () => {
 
   const performFormInput = (req) => {
     const usernameInput = screen.getByLabelText(/username/i);
-    const [passwordInput, confirmPassword] =
-      screen.getAllByLabelText(/password/i);
+    const [passwordInput, confirmPassword] = screen.getAllByLabelText(/password/i);
 
     userEvent.type(usernameInput, req.username);
     userEvent.type(passwordInput, req.password);
@@ -170,8 +164,7 @@ describe("Register Page", () => {
       password: "learnbydoing",
     };
 
-    const { usernameInput, passwordInput, confirmPassword } =
-      performFormInput(request);
+    const { usernameInput, passwordInput, confirmPassword } = performFormInput(request);
     expect(usernameInput).toHaveValue(request.username);
     expect(passwordInput).toHaveValue(request.password);
     expect(confirmPassword).toHaveValue(request.password);
@@ -180,9 +173,7 @@ describe("Register Page", () => {
       userEvent.click(screen.getByRole("button", { name: /register/i }));
     });
 
-    const registerCall = mock.history.post.find(
-      (req) => req.url === `${config.endpoint}/auth/register`
-    );
+    const registerCall = mock.history.post.find((req) => req.url === `${config.endpoint}/auth/register`);
     expect(registerCall).toBeTruthy();
   });
 
@@ -192,8 +183,7 @@ describe("Register Page", () => {
       password: "learnbydoing",
     };
 
-    const { usernameInput, passwordInput, confirmPassword } =
-      performFormInput(request);
+    const { usernameInput, passwordInput, confirmPassword } = performFormInput(request);
     expect(usernameInput).toHaveValue(request.username);
     expect(passwordInput).toHaveValue(request.password);
     expect(confirmPassword).toHaveValue(request.password);
@@ -202,9 +192,7 @@ describe("Register Page", () => {
       userEvent.click(screen.getByRole("button", { name: /register/i }));
     });
 
-    const registerCall = mock.history.post.find(
-      (req) => req.url === `${config.endpoint}/auth/register`
-    );
+    const registerCall = mock.history.post.find((req) => req.url === `${config.endpoint}/auth/register`);
 
     expect(registerCall.url).toEqual(`${config.endpoint}/auth/register`);
     expect(JSON.parse(registerCall.data)).toEqual(
@@ -247,4 +235,23 @@ describe("Register Page", () => {
     expect(alert).toHaveTextContent(/Username is already taken/i);
   });
 
+  it("should redirect to login after success", async () => {
+    const request = {
+      username: "crio.do",
+      password: "learnbydoing",
+    };
+
+    performFormInput(request);
+
+    expect(history.location.pathname).toBe("/login");
+  });
+
+  it("'back to explore' button on Header should route to products", async () => {
+    const exploreButton = screen.getByRole("button", {
+      name: /back to explore/i,
+    });
+    userEvent.click(exploreButton);
+
+    expect(history.location.pathname).toBe("/");
+  });
 });
