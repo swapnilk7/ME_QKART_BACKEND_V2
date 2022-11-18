@@ -23,6 +23,7 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
       <Box className="header-title">
         <img src="logo_light.svg" alt="QKart-icon"></img>
       </Box>
+      {children}
       <Stack spacing={2} direction={"row"} alignItems={"center"}>
         {hasHiddenAuthButtons === "register/login" ? (
           <Link className="link" to="/">
@@ -35,7 +36,7 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
         )}
         {hasHiddenAuthButtons === "loggedIn" ? (
           <>
-            <Avatar alt="crio.do" src="avatar.png" /> {children}
+            <Avatar alt={localStorage.getItem("username")} src="avatar.png" /> {localStorage.getItem("username")}
             <Button variant="text" onClick={logout}>
               Logout
             </Button>
