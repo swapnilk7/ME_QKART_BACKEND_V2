@@ -94,7 +94,7 @@ const Products = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <Search size="small" />
+                  <Search size="small" color="primary" />
                 </InputAdornment>
               ),
             }}
@@ -107,10 +107,11 @@ const Products = () => {
           size="small"
           fullWidth
           placeholder="Search for items/categories"
+          onChange={debounceSearch}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <Search size="small" />
+                <Search size="small" color="primary" />
               </InputAdornment>
             ),
           }}
