@@ -3,19 +3,16 @@ import { Avatar, Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useSnackbar } from "notistack";
 
 import "./Header.css";
 
 const Header = ({ children, hasHiddenAuthButtons }) => {
   let history = useHistory();
-  const { enqueueSnackbar } = useSnackbar();
 
   const logout = () => {
     localStorage.clear();
     history.push("/");
     window.location.reload();
-    enqueueSnackbar("Logged Out", { variant: "success" });
   };
 
   return (
@@ -25,26 +22,22 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
       </Box>
       {children}
       <Stack spacing={2} direction={"row"} alignItems={"center"}>
-        {hasHiddenAuthButtons === "register/login" ? (
+        {hasHiddenAuthButtons === "register/login" && (
           <Link className="link" to="/">
             <Button startIcon={<ArrowBackIcon />} variant="text">
               Back to explore
             </Button>
           </Link>
-        ) : (
-          <></>
         )}
-        {hasHiddenAuthButtons === "loggedIn" ? (
+        {hasHiddenAuthButtons === "loggedIn" && (
           <>
             <Avatar alt={localStorage.getItem("username")} src="avatar.png" /> {localStorage.getItem("username")}
             <Button variant="text" onClick={logout}>
               Logout
             </Button>
           </>
-        ) : (
-          <></>
         )}
-        {hasHiddenAuthButtons === "loggedOut" ? (
+        {hasHiddenAuthButtons === "loggedOut" && (
           <>
             <Link className="link" to="/login">
               <Button variant="text">Login</Button>
@@ -53,8 +46,6 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
               <Button variant="contained">Register</Button>
             </Link>
           </>
-        ) : (
-          <></>
         )}
       </Stack>
     </Box>

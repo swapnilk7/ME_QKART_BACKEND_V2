@@ -1,17 +1,10 @@
 import { CreditCard, Delete } from "@mui/icons-material";
-import {
-  Button,
-  Divider,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { config } from "../App";
 import Cart, { getTotalCartValue, generateCartItemsFrom } from "./Cart";
 import "./Checkout.css";
@@ -42,17 +35,9 @@ import Header from "./Header";
  * @property {string} productId - Unique ID for the product
  */
 
-
-
 const Checkout = () => {
-
-
-
-
-
-
-
-
+  const location = useLocation();
+  const { items } = location.state;
 
   return (
     <>
@@ -64,14 +49,11 @@ const Checkout = () => {
               Shipping
             </Typography>
             <Typography color="#3C3C3C" my="1rem">
-              Manage all the shipping addresses you want. This way you won't
-              have to enter the shipping address manually with every order.
-              Select the address you want to get your order delivered.
+              Manage all the shipping addresses you want. This way you won't have to enter the shipping address manually
+              with every order. Select the address you want to get your order delivered.
             </Typography>
             <Divider />
-            <Box>
-            </Box>
-
+            <Box></Box>
 
             <Typography color="#3C3C3C" variant="h4" my="1rem">
               Payment
@@ -84,21 +66,17 @@ const Checkout = () => {
             <Box my="1rem">
               <Typography>Wallet</Typography>
               <Typography>
-                Pay ${getTotalCartValue(items)} of available $
-                {localStorage.getItem("balance")}
+                Pay ${getTotalCartValue(items)} of available ${localStorage.getItem("balance")}
               </Typography>
             </Box>
 
-            <Button
-              startIcon={<CreditCard />}
-              variant="contained"
-            >
+            <Button startIcon={<CreditCard />} variant="contained">
               PLACE ORDER
             </Button>
           </Box>
         </Grid>
         <Grid item xs={12} md={3} bgcolor="#E9F5E1">
-          <Cart isReadOnly products={products} items={items} />
+          <Cart isReadOnly items={items} />
         </Grid>
       </Grid>
       <Footer />

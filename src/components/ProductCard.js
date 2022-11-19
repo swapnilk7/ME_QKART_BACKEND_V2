@@ -16,7 +16,13 @@ const ProductCard = ({ product, handleAddToCart }) => {
           <Rating value={product.rating} readOnly />
         </Typography>
         <CardActions className="card-actions" style={{ paddingLeft: 0, paddingRight: 0 }}>
-          <Button className="card-button" fullWidth startIcon={<AddShoppingCartOutlined />} variant="contained">
+          <Button
+            className="card-button"
+            fullWidth
+            startIcon={<AddShoppingCartOutlined />}
+            variant="contained"
+            onClick={() => handleAddToCart(product)}
+          >
             Add to Cart
           </Button>
         </CardActions>
