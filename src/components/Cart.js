@@ -169,12 +169,7 @@ const Cart = ({ products, items = [], handleQuantity }) => {
             variant="contained"
             startIcon={<ShoppingCart />}
             className="checkout-btn"
-            onClick={() =>
-              history.push({
-                state: { items: items },
-                pathname: "/checkout",
-              })
-            }
+            onClick={() => history.push({ pathname: "/checkout" })}
           >
             Checkout
           </Button>

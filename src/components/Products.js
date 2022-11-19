@@ -148,44 +148,6 @@ const Products = () => {
     return isPresent;
   };
 
-  /**
-   * Perform the API call to add or update items in the user's cart and update local cart data to display the latest cart
-   *
-   * @param {string} token
-   *    Authentication token returned on login
-   * @param { Array.<{ productId: String, quantity: Number }> } items
-   *    Array of objects with productId and quantity of products in cart
-   * @param { Array.<Product> } products
-   *    Array of objects with complete data on all available products
-   * @param {string} productId
-   *    ID of the product that is to be added or updated in cart
-   * @param {number} qty
-   *    How many of the product should be in the cart
-   * @param {boolean} options
-   *    If this function was triggered from the product card's "Add to Cart" button
-   *
-   * Example for successful response from backend:
-   * HTTP 200 - Updated list of cart items
-   * [
-   *      {
-   *          "productId": "KCRwjF7lN97HnEaY",
-   *          "qty": 3
-   *      },
-   *      {
-   *          "productId": "BW0jAAeDJmlZCF8i",
-   *          "qty": 1
-   *      }
-   * ]
-   *
-   * Example for failed response from backend:
-   * HTTP 404 - On invalid productId
-   * {
-   *      "success": false,
-   *      "message": "Product doesn't exist"
-   * }
-   */
-  const addToCart = async (token, items, products, productId, qty, options = { preventDuplicate: false }) => {};
-
   useEffect(() => {
     let isCancelled = true;
     if (isCancelled) {
@@ -199,6 +161,7 @@ const Products = () => {
     return () => {
       isCancelled = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
