@@ -87,20 +87,28 @@ export const getTotalCartValue = (items = []) => {
  *
  *
  */
-const ItemQuantity = ({ value, handleQuantity }) => {
-  return (
-    <Stack direction="row" alignItems="center">
-      <IconButton size="small" color="primary" onClick={(e) => handleQuantity(value, "remove")}>
-        <RemoveOutlined />
-      </IconButton>
-      <Box padding="0.5rem" data-testid="item-qty">
-        {value.qty}
-      </Box>
-      <IconButton size="small" color="primary" onClick={(e) => handleQuantity(value, "add")}>
-        <AddOutlined />
-      </IconButton>
-    </Stack>
-  );
+const ItemQuantity = ({ value, handleQuantity, isReadOnly }) => {
+  if (!isReadOnly) {
+    return (
+      <Stack direction="row" alignItems="center">
+        <IconButton size="small" color="primary" onClick={(e) => handleQuantity(value, "remove")}>
+          <RemoveOutlined />
+        </IconButton>
+        <Box padding="0.5rem" data-testid="item-qty">
+          {value.qty}
+        </Box>
+        <IconButton size="small" color="primary" onClick={(e) => handleQuantity(value, "add")}>
+          <AddOutlined />
+        </IconButton>
+      </Stack>
+    );
+  } else {
+    return (
+      <Stack direction="row" alignItems="center">
+        <Box padding="0.5rem">Qty: {value.qty}</Box>
+      </Stack>
+    );
+  }
 };
 
 /**
@@ -117,7 +125,7 @@ const ItemQuantity = ({ value, handleQuantity }) => {
  *
  *
  */
-const Cart = ({ products, items = [], handleQuantity }) => {
+const Cart = ({ products, items = [], handleQuantity, isReadOnly }) => {
   let history = useHistory();
 
   if (!items.length) {
@@ -144,7 +152,7 @@ const Cart = ({ products, items = [], handleQuantity }) => {
               <Box display="flex" flexDirection="column" justifyContent="space-between" height="6rem" paddingX="1rem">
                 <div>{item.name}</div>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
-                  <ItemQuantity value={item} handleQuantity={handleQuantity} />
+                  <ItemQuantity value={item} handleQuantity={handleQuantity} isReadOnly={isReadOnly} />
                   <Box padding="0.5rem" fontWeight="700">
                     ${item.cost}
                   </Box>
@@ -162,19 +170,45 @@ const Cart = ({ products, items = [], handleQuantity }) => {
             ${getTotalCartValue(items)}
           </Box>
         </Box>
-
-        <Box display="flex" justifyContent="flex-end" className="cart-footer">
-          <Button
-            color="primary"
-            variant="contained"
-            startIcon={<ShoppingCart />}
-            className="checkout-btn"
-            onClick={() => history.push({ pathname: "/checkout" })}
-          >
-            Checkout
-          </Button>
-        </Box>
+        {!isReadOnly && (
+          <Box display="flex" justifyContent="flex-end" className="cart-footer">
+            <Button
+              color="primary"
+              variant="contained"
+              startIcon={<ShoppingCart />}
+              className="checkout-btn"
+              onClick={() => history.push({ pathname: "/checkout" })}
+            >
+              Checkout
+            </Button>
+          </Box>
+        )}
       </Box>
+      {isReadOnly && (
+        <Box className="cart" display="flex" flexDirection="column" alignItems="flex-start" padding="1rem">
+          <h2>Order Details</h2>
+          <Box padding="0.5rem 0" display="flex" justifyContent="space-between" alignItems="center" width="100%">
+            <Box color="#3C3C3C">Products</Box>
+            <Box color="#3C3C3C">{items.length}</Box>
+          </Box>
+          <Box padding="0.5rem 0" display="flex" justifyContent="space-between" alignItems="center" width="100%">
+            <Box color="#3C3C3C">Subtotal</Box>
+            <Box color="#3C3C3C">${getTotalCartValue(items)}</Box>
+          </Box>
+          <Box padding="0.5rem 0" display="flex" justifyContent="space-between" alignItems="center" width="100%">
+            <Box color="#3C3C3C">Shipping Charges</Box>
+            <Box color="#3C3C3C">$0</Box>
+          </Box>
+          <Box padding="0.5rem 0" display="flex" justifyContent="space-between" alignItems="center" width="100%">
+            <Box color="#3C3C3C" fontWeight="700">
+              Total
+            </Box>
+            <Box color="#3C3C3C" fontWeight="700">
+              ${getTotalCartValue(items)}
+            </Box>
+          </Box>
+        </Box>
+      )}
     </>
   );
 };

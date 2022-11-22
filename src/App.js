@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import Products from "./components/Products";
 import Checkout from "./components/Checkout";
+import Thanks from "./components/Thanks";
 import PageNotFound from "./components/PageNotFound";
 
 export const config = {
@@ -26,6 +27,9 @@ function App() {
         </Route>
         <Route path="/checkout">
           <Checkout />
+        </Route>
+        <Route path="/thanks">
+          <Thanks />
         </Route>
         <Route path="*">
           <PageNotFound />
